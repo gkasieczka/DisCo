@@ -1,4 +1,14 @@
 def distance_corr(var_1,var_2,normedweight,power=1):
+    """var_1: First variable to decorrelate (eg mass)
+    var_2: Second variable to decorrelate (eg classifier output)
+    normedweight: Per-example weight. Sum of weights should add up to 1
+    power: Exponent used in calculating the distance correlation
+    
+    va1_1, var_2 and normedweight should all be 1D torch tensors with the same number of entries
+    
+    Usage: Add to your loss function. total_loss = BCE_loss + lambda * distance_corr
+    """
+    
     
     xx = var_1.view(-1, 1).repeat(1, len(var_1)).view(len(var_1),len(var_1))
     yy = var_1.repeat(len(var_1),1).view(len(var_1),len(var_1))
