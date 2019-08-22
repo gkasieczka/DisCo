@@ -3,7 +3,7 @@ import tensorflow as tf
 def distance_corr(var_1, var_2, normedweight, power=1):
     """var_1: First variable to decorrelate (eg mass)
     var_2: Second variable to decorrelate (eg classifier output)
-    normedweight: Per-example weight. Sum of weights should add up to 1
+    normedweight: Per-example weight. Sum of weights should add up to N (where N is the number of examples)
     power: Exponent used in calculating the distance correlation
     
     va1_1, var_2 and normedweight should all be 1D tf tensors with the same number of entries
