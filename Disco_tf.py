@@ -47,7 +47,7 @@ def distance_corr(var_1, var_2, normedweight, power=1):
     ABavg = tf.reduce_mean(Amat*Bmat*normedweight,axis=1)
     AAavg = tf.reduce_mean(Amat*Amat*normedweight,axis=1)
     BBavg = tf.reduce_mean(Bmat*Bmat*normedweight,axis=1)
-   
+
     if power==1:
         dCorr = tf.reduce_mean(ABavg*normedweight)/tf.math.sqrt(tf.reduce_mean(AAavg*normedweight)*tf.reduce_mean(BBavg*normedweight))
     elif power==2:
