@@ -50,5 +50,3 @@ def distance_corr(var_1, var_2, normedweight, power=1):
         dCorr = (tf.reduce_mean(ABavg*normedweight)/tf.math.sqrt(tf.reduce_mean(AAavg*normedweight)*tf.reduce_mean(BBavg*normedweight)))**power
   
     return dCorr
-
-
