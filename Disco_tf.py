@@ -15,16 +15,14 @@ def distance_corr(var_1, var_2, normedweight, power=1):
     xx = tf.tile(xx, [1, tf.size(var_1)])
     xx = tf.reshape(xx, [tf.size(var_1), tf.size(var_1)])
  
-    yy = tf.tile(var_1, [tf.size(var_1)])
-    yy = tf.reshape(yy, [tf.size(var_1), tf.size(var_1)])
+    yy = tf.transpose(xx)
     amat = tf.math.abs(xx-yy)
     
     xx = tf.reshape(var_2, [-1, 1])
     xx = tf.tile(xx, [1, tf.size(var_2)])
     xx = tf.reshape(xx, [tf.size(var_2), tf.size(var_2)])
     
-    yy = tf.tile(var_2, [tf.size(var_2)])
-    yy = tf.reshape(yy, [tf.size(var_2), tf.size(var_2)])
+    yy = tf.transpose(xx)
     bmat = tf.math.abs(xx-yy)
    
     amatavg = tf.reduce_mean(amat*normedweight, axis=1)
@@ -32,16 +30,12 @@ def distance_corr(var_1, var_2, normedweight, power=1):
  
     minuend_1 = tf.tile(amatavg, [tf.size(var_1)])
     minuend_1 = tf.reshape(minuend_1, [tf.size(var_1), tf.size(var_1)])
-    minuend_2 = tf.reshape(amatavg, [-1, 1])
-    minuend_2 = tf.tile(minuend_2, [1, tf.size(var_1)])
-    minuend_2 = tf.reshape(minuend_2, [tf.size(var_1), tf.size(var_1)])
+    minuend_2 = tf.transpose(minuend_1)
     Amat = amat-minuend_1-minuend_2+tf.reduce_mean(amatavg*normedweight)
-    
+
     minuend_1 = tf.tile(bmatavg, [tf.size(var_2)])
     minuend_1 = tf.reshape(minuend_1, [tf.size(var_2), tf.size(var_2)])
-    minuend_2 = tf.reshape(bmatavg, [-1, 1])
-    minuend_2 = tf.tile(minuend_2, [1, tf.size(var_2)])
-    minuend_2 = tf.reshape(minuend_2, [tf.size(var_2), tf.size(var_2)])
+    minuend_2 = tf.transpose(minuend_1)
     Bmat = bmat-minuend_1-minuend_2+tf.reduce_mean(bmatavg*normedweight)
 
     ABavg = tf.reduce_mean(Amat*Bmat*normedweight,axis=1)
@@ -56,4 +50,3 @@ def distance_corr(var_1, var_2, normedweight, power=1):
         dCorr = (tf.reduce_mean(ABavg*normedweight)/tf.math.sqrt(tf.reduce_mean(AAavg*normedweight)*tf.reduce_mean(BBavg*normedweight)))**power
   
     return dCorr
-
